@@ -1,0 +1,9 @@
+@font-face { font-family: 'Lora-Regular'; font-weight: normal; font-style: normal; src: url('./fonts/Lora-Regular.ttf') format('truetype'), url('../../fonts/Lora-Regular.eot') format('embedded-opentype'); }
+@font-face { font-family: 'Lora-Bold'; font-weight: normal; font-style: normal; src: url('./fonts/Lora-Bold.ttf') format('truetype'), url('../../fonts/Lora-Bold.eot') format('embedded-opentype'); }
+@font-face { font-family: 'Lora-Italic'; font-weight: normal; font-style: normal; src: url('./fonts/Lora-Italic.ttf') format('truetype'), url('../../fonts/Lora-Italic.eot') format('embedded-opentype'); }
+@font-face { font-family: 'Lora-BoldItalic'; font-weight: normal; font-style: normal; src: url('./fonts/Lora-BoldItalic.ttf') format('truetype'), url('../../fonts/Lora-BoldItalic.eot') format('embedded-opentype'); }
+
+.lora-italic { font-family: 'Lora-Italic'; }
+.lora-bolditalic { font-family: 'Lora-BoldItalic'; }
+.lora-bold { font-family: 'Lora-Bold'; }
+.lora-regular { font-family: 'Lora-Regular'; }

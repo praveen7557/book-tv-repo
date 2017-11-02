@@ -1,0 +1,5 @@
+redux
+react-redux
+redux-promise
+axios
+proxify-url
