@@ -11,3 +11,7 @@ For books data we are using Goodreads API. This api has no CORS, so we are using
 'axios' for ajax calls.
 
 'redux-promise' for the promise resolution.
+
+'react-router-dom' from routing.
+
+Demo - https://booktvrepo.herokuapp.com 
