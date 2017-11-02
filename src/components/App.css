@@ -3,10 +3,11 @@
 }
 
 .box{
-  height: 200px;
-  width: 80%;
+  height: 250px;
+  width: 90%;
   margin: 0 auto;
   position: relative;
+  max-width: 100%;
 }
 
 .box .boxSeparator{
@@ -33,12 +34,13 @@
 
 .H100{
   height: 100%;
+  overflow: hidden;
 }
 
 .imgContainer{
   z-index: 100;
   position: relative;
-  margin-top: 25px;
+  margin-top: 50px;
 }
 
 .imgContainer img{

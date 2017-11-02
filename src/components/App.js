@@ -5,15 +5,16 @@ import './App.css';
 import { fetchBooks } from '../actions/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link, withRouter, Route } from 'react-router-dom';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.props.fetchBooks();
+    console.log(props);
   }
-  render() {
 
+  render() {
     return (
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -24,18 +25,18 @@ class App extends Component {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="#">To-Read</a>
+              <li className={`nav-item ${this.props.match.params.id == "to-read" ? "active" : ""}`}>
+                <Link className="nav-link" to="/books/to-read">To-Read</Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Read</a>
+              <li className={`nav-item ${this.props.match.params.id == "read" ? "active" : ""}`}>
+                <Link className="nav-link" to="/books/read">Read</Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">DNF</a>
+              <li className={`nav-item ${this.props.match.params.id == "dnf" ? "active" : ""}`} >
+                <Link className="nav-link" to="/books/dnf">DNF</Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Own</a>
-              </li>
+              {/* <li className="nav-item">
+              <Link className="nav-link" to="/books/to-read">To-Read</Link>
+              </li> */}
             </ul>
             <form className="form-inline my-2 my-lg-0">
               <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
@@ -43,7 +44,8 @@ class App extends Component {
             </form>
           </div>
         </nav>
-        <Box />
+        <Box id={this.props.match.params.id} key={this.props.match.params.id} />
+        {/* <Route component={Box} /> */}
       </div>
     );
   }
@@ -53,4 +55,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ fetchBooks }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default withRouter(connect(null, mapDispatchToProps)(App));
