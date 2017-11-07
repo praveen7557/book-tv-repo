@@ -5,48 +5,77 @@ import './App.css';
 import { fetchBooks } from '../actions/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link, withRouter, Route } from 'react-router-dom';
+import { Link, withRouter, Route, NavLink } from 'react-router-dom';
+import TVBox from './tvBox';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    this.isBooks = (this.props.match.path == "/" || this.props.match.path.indexOf("books") > -1) ? true : false;
+  }
+
+  renderForViews() {
+    if (this.isBooks) {
+      return (
+        <ul className="navbar-nav mr-auto">
+          <li className={`nav-item `}>
+            <NavLink className="nav-link" to="/books/to-read">To-Read</NavLink>
+          </li>
+          <li className={`nav-item `}>
+            <NavLink className="nav-link" to="/books/read">Read</NavLink>
+          </li>
+          <li className={`nav-item `} >
+            <NavLink className="nav-link" to="/books/dnf">DNF</NavLink>
+          </li>
+        </ul>
+      );
+    } else {
+      return (
+        <ul className="navbar-nav mr-auto">
+          <li className={`nav-item `}>
+            <NavLink className="nav-link" to="/tv/watch-list">WatchList</NavLink>
+          </li>
+          <li className={`nav-item `} >
+            <NavLink className="nav-link" to="/tv/dnf">DNF</NavLink>
+          </li>
+        </ul>
+      );
+    }
   }
 
   render() {
     return (
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-          <a className="navbar-brand" href="#">Goodreads</a>
+          {
+            this.isBooks ? <Link className="navbar-brand" to="/">Goodreads</Link> : <Link className="navbar-brand" to="/tv">TV Shows</Link>
+          }
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className={`nav-item ${this.props.match.params.id == "to-read" ? "active" : ""}`}>
-                <Link className="nav-link" to="/books/to-read">To-Read</Link>
-              </li>
-              <li className={`nav-item ${this.props.match.params.id == "read" ? "active" : ""}`}>
-                <Link className="nav-link" to="/books/read">Read</Link>
-              </li>
-              <li className={`nav-item ${this.props.match.params.id == "dnf" ? "active" : ""}`} >
-                <Link className="nav-link" to="/books/dnf">DNF</Link>
-              </li>
-              {/* <li className="nav-item">
-              <Link className="nav-link" to="/books/to-read">To-Read</Link>
-              </li> */}
-            </ul>
+            {
+              this.renderForViews()
+            }
             <form className="form-inline my-2 my-lg-0">
-              <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              <ul className="navbar-nav mr-auto">
+                <li className={`nav-item `} >
+                  {
+                    this.isBooks ? <Link className="nav-link" to="/tv">TV Shows</Link> : <Link className="nav-link" to="/">Goodreads</Link>
+                  }
+                </li>
+              </ul>
             </form>
           </div>
         </nav>
-        <Box id={this.props.match.params.id} key={this.props.match.params.id} />
-        {/* <Route component={Box} /> */}
-      </div>
+        {
+          this.isBooks ? <Box id={this.props.match.params.id} key={this.props.match.params.id} /> :
+            <TVBox id={this.props.match.params.id} key={this.props.match.params.id} />
+        }
+
+      </div >
     );
   }
 }

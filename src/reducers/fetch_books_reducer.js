@@ -9,12 +9,7 @@ import { DEFAULT_KEY, generateCacheTTL } from "redux-cache";
 export default function (state = [], action) {
     switch (action.type) {
         case FETCH_BOOKS:
-            console.log(action.payload.data.query.results.GoodreadsResponse.reviews.review);
-            // return {
-            //     [DEFAULT_KEY]: generateCacheTTL(),
-            //     results: action.payload.data.query.results.GoodreadsResponse.reviews.review
-            // };
-            return action.payload.data.query.results.GoodreadsResponse.reviews.review;
+            return action.payload.query.results.GoodreadsResponse.reviews.review;
             break;
     }
     return state;

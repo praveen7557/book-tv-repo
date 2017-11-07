@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
-import thunk from "redux-thunk";
+import ReduxThunk from "redux-thunk";
 import { compose, createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
 import { cacheEnhancer } from 'redux-cache';
@@ -12,14 +12,13 @@ import reducers from './reducers/index';
 import './index.css';
 import App from './components/App';
 
-const middleWare = [thunk];
+const middleWare = [ReduxThunk];
 // const createStoreWithMiddleware = applyMiddleware(ReduxPromise);
 const store = createStore(
     reducers,
     undefined,
     compose(
-        applyMiddleware(...middleWare, ReduxPromise),
-        cacheEnhancer()
+        applyMiddleware(...middleWare)
     )
 );
 // ReactDOM.render(<App />, document.getElementById('root'));
@@ -31,6 +30,7 @@ ReactDOM.render(
             <div>
                 <Route exact path="/" component={App} />
                 <Route path="/books/:id" component={App} />
+                <Route path="/tv" component={App} />
             </div>
         </BrowserRouter>
     </Provider>
