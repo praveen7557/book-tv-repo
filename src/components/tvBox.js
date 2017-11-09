@@ -47,7 +47,7 @@ class TVBox extends Component {
                 {
                     // <div className="FS08 MT05"> {this.props.comments["tv:" + boxData.id].replace("_dnf", "")} ( My Rating )</div>
                     boxData.account_rating != undefined ?
-                        <div className="FS08 MT05">{boxData.account_rating.value} (My Rating)</div> : (this.props.match.params.id == "dnf" ? <div className="FS08 MT05"> {this.props.comments["tv:" + boxData.id].replace("_dnf", "")} (My Rating)</div> : "")
+                        <div className="FS08 MT05">{boxData.account_rating.value} (My Rating)</div> : (this.props.match.params.id == "dnf" ? <div className="FS08 MT05"> {(this.props.comments != undefined) ? this.props.comments["tv:" + boxData.id].replace("_dnf", "") : ""} (My Rating)</div> : "")
                 }
                 {
                     <div className="FS08 MT05">{this.renderGenres(boxData)}</div>
@@ -92,18 +92,19 @@ class TVBox extends Component {
                 {this.props.shows.map(this.renderBox)}
             </div>
         ) : (
-                <div className="loaderDiv">
-                    <img src={require("../img/Ripple.gif")} alt="Loading Shows ..." />
-                </div>
+                // <div >
+                <div className="loaderDiv">Loading Shows</div>
+                // {/* <img src={require("../img/Ripple.gif")} alt="Loading Shows ..." /> */ }
+                // </div>
             );
     }
 }
 
 function mapStateToProps(state) {
     console.log(state.shows);
-    var showRet = (state.shows.length == 0 ? state.shows : state.shows[0].results);
-    var comments = (state.shows.length == 0 ? state.shows : state.shows[0].comments);
-    const page = (state.shows.length == 0 ? 1 : state.shows[0].page);
+    var showRet = (state.shows.length == 0 ? state.shows : state.shows.results);
+    var comments = (state.shows.length == 0 ? state.shows : state.shows.comments);
+    const page = (state.shows.length == 0 ? 1 : state.shows.page);
     return { shows: showRet, comments: comments, page: page };
 }
 

@@ -7,6 +7,9 @@ export const FETCH_TO_READ = 'FETCH_TO_READ';
 export const FETCH_READ = 'FETCH_READ';
 export const FETCH_DNF = 'FETCH_DNF';
 
+export const FETCH_INITIAL_BOOKS = "FETCH_INITIAL_BOOKS";
+export const FETCH_INITIAL_SHOWS = "FETCH_INITIAL_SHOWS";
+
 export const FETCH_TVSHOWS = 'FETCH_TVSHOWS';
 var proxify = require('proxify-url');
 const BOOKS_URL = 'https://www.goodreads.com/review/list/36189301.xml?key=qY1rPUxjLx33WZDq6OkvEQ&v=2&per_page=200';
@@ -22,6 +25,10 @@ export function fetchBooks(params) {
     let proxyUrl = proxify(GET_URL, { inputFormat: 'xml' });
     // let books = axios.get(proxyUrl, { params: { format: "json" } });
     return (dispatch) => {
+        dispatch({
+            type: FETCH_INITIAL_BOOKS,
+            payload: []
+        })
         axios.get(proxyUrl, { params: { format: "json" } }).then(books => {
             // var type = (params == undefined ? "FETCH_BOOKS" : "FETCH_" + params.toUpperCase().replace("-", "_"));
             dispatch({
@@ -35,7 +42,7 @@ export function fetchBooks(params) {
 export function fetchTvShows(params) {
     typeOfList = (params == undefined ? "rated" : params);
     var GET_URL = `https://api.themoviedb.org/4/account/57984952c3a368052f002968/tv/${typeOfList}?page=${page_no}`;
-    GET_URL = (params == "dnf" ? "https://api.themoviedb.org/4/list/37823?page=1&api_key=" + TV_API_KEY : GET_URL);
+    GET_URL = (params == "dnf" ? "https://api.themoviedb.org/4/list/37943?page=1&api_key=" + TV_API_KEY : GET_URL);
     var headers = {
         "authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OWMyNjMwNmJlM2QxY2UwNTA5MGYyNDUwZmY5MGM2ZSIsInN1YiI6IjU3OTg0OTUyYzNhMzY4MDUyZjAwMjk2OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5GRbUI72s9w3JvlegvBx8N52lq4lcDSvZzYZsig5V2c"
     }
@@ -45,12 +52,16 @@ export function fetchTvShows(params) {
     //let tvShows = axios.get(GET_URL, { params: { format: "json" } });
 
     return (dispatch) => {
+        dispatch({
+            type: FETCH_INITIAL_SHOWS,
+            payload: []
+        })
         axios.get(GET_URL, { params: { format: "json" }, headers: headers }).then(tv => {
             var tvJSON = JSON.parse(JSON.stringify(tv.data));
             if (tv.data.total_pages > 1) {
                 for (var i = 2; i < tv.data.total_pages + 1; i++) {
                     GET_URL = `https://api.themoviedb.org/4/account/57984952c3a368052f002968/tv/${typeOfList}?page=${i}`;
-                    GET_URL = (params == "dnf" ? "https://api.themoviedb.org/4/list/37823?page=" + i + "&api_key=" + TV_API_KEY : GET_URL);
+                    GET_URL = (params == "dnf" ? "https://api.themoviedb.org/4/list/37943?page=" + i + "&api_key=" + TV_API_KEY : GET_URL);
                     axios.get(GET_URL, { params: { format: "json" }, headers: headers }).then(shows => {
                         tvJSON.comments = Object.assign({}, tvJSON.comments, shows.data.comments);
                         tvJSON.results = tvJSON.results.concat(shows.data.results);

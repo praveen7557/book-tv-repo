@@ -25,9 +25,9 @@ class App extends Component {
           <li className={`nav-item `}>
             <NavLink className="nav-link" to="/books/read">Read</NavLink>
           </li>
-          <li className={`nav-item `} >
+          {/* <li className={`nav-item `} >
             <NavLink className="nav-link" to="/books/dnf">DNF</NavLink>
-          </li>
+          </li> */}
         </ul>
       );
     } else {
@@ -72,7 +72,7 @@ class App extends Component {
         </nav>
         {
           this.isBooks ? <Box id={this.props.match.params.id} key={this.props.match.params.id} /> :
-            <TVBox id={this.props.match.params.id} key={this.props.match.params.id} />
+            <TVBox id={this.props.match.params.id} key={this.props.match.params.id == undefined ? "main" : this.props.match.params.id} />
         }
 
       </div >
