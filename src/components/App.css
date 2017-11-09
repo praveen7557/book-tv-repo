@@ -81,3 +81,7 @@
   max-height: 80px;
   overflow: hidden;
 }
+
+.loaderDiv{
+  margin-top: 13%;
+}

@@ -75,7 +75,9 @@ class Box extends Component {
                 {this.props.books.books.length > 0 ? this.props.books.books.map(this.renderBox) : this.renderBox(this.props.books.books, 0)}
             </div>
         ) : (
-                <span>Loading books...</span>
+                <div className="loaderDiv">
+                    <img src={require("../img/Ripple.gif")} alt="Loading Books ..." />
+                </div>
             );
     }
 }

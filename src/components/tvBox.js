@@ -92,7 +92,9 @@ class TVBox extends Component {
                 {this.props.shows.map(this.renderBox)}
             </div>
         ) : (
-                <span>Loading shows...</span>
+                <div className="loaderDiv">
+                    <img src={require("../img/Ripple.gif")} alt="Loading Shows ..." />
+                </div>
             );
     }
 }
