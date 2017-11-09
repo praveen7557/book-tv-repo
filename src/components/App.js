@@ -34,7 +34,7 @@ class App extends Component {
       return (
         <ul className="navbar-nav mr-auto">
           <li className={`nav-item `}>
-            <NavLink className="nav-link" to="/tv/watch-list">WatchList</NavLink>
+            <NavLink className="nav-link" to="/tv/watchlist">WatchList</NavLink>
           </li>
           <li className={`nav-item `} >
             <NavLink className="nav-link" to="/tv/dnf">DNF</NavLink>

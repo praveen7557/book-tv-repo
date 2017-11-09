@@ -1,4 +1,4 @@
-import { FETCH_BOOKS } from '../actions/actions'
+import { FETCH_BOOKS, FETCH_TO_READ, FETCH_DNF, FETCH_READ } from '../actions/actions'
 import { DEFAULT_KEY, generateCacheTTL } from "redux-cache";
 
 // const initialState = {

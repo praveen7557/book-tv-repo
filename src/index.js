@@ -30,7 +30,8 @@ ReactDOM.render(
             <div>
                 <Route exact path="/" component={App} />
                 <Route path="/books/:id" component={App} />
-                <Route path="/tv" component={App} />
+                <Route exact path="/tv" component={App} />
+                <Route path="/tv/:id" component={App} />
             </div>
         </BrowserRouter>
     </Provider>

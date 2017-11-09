@@ -9,7 +9,15 @@ class Box extends Component {
         super(props);
         this.renderBox = this.renderBox.bind(this);
         console.log(props);
+    }
+
+    componentWillMount() {
         this.props.fetchBooks(this.props.match.params.id);
+    }
+
+    componentDidMount() {
+        var titleTxt = (this.props.match.params.id == undefined ? "" : " - " + this.props.match.params.id);
+        document.title = "Books" + titleTxt.toUpperCase();
     }
 
     renderDesc(boxData) {

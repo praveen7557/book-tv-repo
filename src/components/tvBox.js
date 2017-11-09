@@ -8,7 +8,15 @@ class TVBox extends Component {
     constructor(props) {
         super(props);
         this.renderBox = this.renderBox.bind(this);
-        this.props.fetchTvShows();
+    }
+
+    componentWillMount() {
+        this.props.fetchTvShows(this.props.match.params.id);
+    }
+
+    componentDidMount() {
+        var titleTxt = (this.props.match.params.id == undefined ? "" : " - " + this.props.match.params.id);
+        document.title = "TV Shows" + titleTxt.toUpperCase();
     }
 
     renderGenres(boxData) {
@@ -21,9 +29,9 @@ class TVBox extends Component {
             });
             item.length > 0 ? genreTextArr.push(item[0].name) : "";
         });
-        if (this.props.comments["tv:" + boxData.id].indexOf("dnf") > -1) {
-            genreTextArr.push("DNF");
-        }
+        // if (this.props.comments["tv:" + boxData.id].indexOf("dnf") > -1) {
+        //     genreTextArr.push("DNF");
+        // }
         return genreTextArr.join(", ");
     }
 
@@ -35,9 +43,11 @@ class TVBox extends Component {
                         {boxData.original_name}
                     </a>
                 </div>
-                <div className="FS08 MT05">{boxData.vote_average} ( Show Rating )</div>
+                <div className="FS08 MT05">{boxData.vote_average} (Show Rating)</div>
                 {
-                    <div className="FS08 MT05"> {this.props.comments["tv:" + boxData.id].replace("_dnf", "")} ( My Rating )</div>
+                    // <div className="FS08 MT05"> {this.props.comments["tv:" + boxData.id].replace("_dnf", "")} ( My Rating )</div>
+                    boxData.account_rating != undefined ?
+                        <div className="FS08 MT05">{boxData.account_rating.value} (My Rating)</div> : (this.props.match.params.id == "dnf" ? <div className="FS08 MT05"> {this.props.comments["tv:" + boxData.id].replace("_dnf", "")} (My Rating)</div> : "")
                 }
                 {
                     <div className="FS08 MT05">{this.renderGenres(boxData)}</div>
