@@ -3,12 +3,13 @@ import axios from 'axios';
 import { checkCacheValid } from "redux-cache";
 
 export const FETCH_BOOKS = 'FETCH_BOOKS';
-export const FETCH_TO_READ = 'FETCH_TO_READ';
-export const FETCH_READ = 'FETCH_READ';
-export const FETCH_DNF = 'FETCH_DNF';
+// export const FETCH_TO_READ = 'FETCH_TO_READ';
+// export const FETCH_READ = 'FETCH_READ';
+// export const FETCH_DNF = 'FETCH_DNF';
 
 export const FETCH_INITIAL_BOOKS = "FETCH_INITIAL_BOOKS";
 export const FETCH_INITIAL_SHOWS = "FETCH_INITIAL_SHOWS";
+export const FETCH_IS_BOOKS = "FETCH_IS_BOOKS";
 
 export const FETCH_TVSHOWS = 'FETCH_TVSHOWS';
 var proxify = require('proxify-url');
@@ -41,7 +42,7 @@ export function fetchBooks(params) {
 
 export function fetchTvShows(params) {
     typeOfList = (params == undefined ? "rated" : params);
-    var GET_URL = `https://api.themoviedb.org/4/account/57984952c3a368052f002968/tv/${typeOfList}?page=${page_no}`;
+    var GET_URL = `https://api.themoviedb.org/4/account/57984952c3a368052f002968/tv/${typeOfList}?page=${page_no}&sort_by=vote_average.desc`;
     GET_URL = (params == "dnf" ? "https://api.themoviedb.org/4/list/37943?page=1&api_key=" + TV_API_KEY : GET_URL);
     var headers = {
         "authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OWMyNjMwNmJlM2QxY2UwNTA5MGYyNDUwZmY5MGM2ZSIsInN1YiI6IjU3OTg0OTUyYzNhMzY4MDUyZjAwMjk2OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5GRbUI72s9w3JvlegvBx8N52lq4lcDSvZzYZsig5V2c"
@@ -60,7 +61,7 @@ export function fetchTvShows(params) {
             var tvJSON = JSON.parse(JSON.stringify(tv.data));
             if (tv.data.total_pages > 1) {
                 for (var i = 2; i < tv.data.total_pages + 1; i++) {
-                    GET_URL = `https://api.themoviedb.org/4/account/57984952c3a368052f002968/tv/${typeOfList}?page=${i}`;
+                    GET_URL = `https://api.themoviedb.org/4/account/57984952c3a368052f002968/tv/${typeOfList}?page=${i}&sort_by=vote_average.desc`;
                     GET_URL = (params == "dnf" ? "https://api.themoviedb.org/4/list/37943?page=" + i + "&api_key=" + TV_API_KEY : GET_URL);
                     axios.get(GET_URL, { params: { format: "json" }, headers: headers }).then(shows => {
                         tvJSON.comments = Object.assign({}, tvJSON.comments, shows.data.comments);
@@ -81,4 +82,11 @@ export function fetchTvShows(params) {
             }
         })
     }
+}
+
+export function updateIsBooks(params) {
+    return ({
+        type: FETCH_IS_BOOKS,
+        payload: params
+    });
 }

@@ -109,3 +109,53 @@
     width: 1.25em;    
   }
 }
+
+.divAbout{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.logoImg{
+  width: 100px;
+  height: 100px;
+}
+
+.logoImg img{
+  width: 100px;
+  height: 100%;
+}
+
+.FL{
+  float: left;
+}
+
+.FR{
+  float: right;
+}
+
+.MT20{
+  margin-top: 20px;
+}
+
+.noMatch{
+  text-align: center;
+  margin-top: 20%;
+}
+
+.endTag{
+  /* margin-top: 20px; */
+  position: relative;
+}
+
+.endTag img{
+  height: 30px;
+  right: 20px;
+  /* margin-bottom: 4px; */
+  bottom: 35px;
+  /* right: 90%; */
+  /* left: 165%; */
+  /* float: right; */
+  position: absolute;
+}

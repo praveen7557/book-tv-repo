@@ -1,23 +1,39 @@
 import React, { Component } from 'react';
-import { fetchBooks } from '../actions/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import { fetchBooks, updateIsBooks } from '../actions/actions';
+import './App.css';
 
 class Box extends Component {
     constructor(props) {
         super(props);
         this.renderBox = this.renderBox.bind(this);
+        this.state = { divs: [] };
+        this.hasMore = true;
+        this.loadFunc = this.loadFunc.bind(this);
+        this.getItems = this.getItems.bind(this);
         console.log(props);
     }
 
     componentWillMount() {
+        this.props.updateIsBooks(true);
         this.props.fetchBooks(this.props.match.params.id);
     }
 
     componentDidMount() {
         var titleTxt = (this.props.match.params.id == undefined ? "" : " - " + this.props.match.params.id);
         document.title = "Books" + titleTxt.toUpperCase();
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.match.params.id != this.props.match.params.id) {
+            this.props.fetchBooks(newProps.match.params.id);
+        } else {
+            this.loadFunc(newProps);
+        }
     }
 
     renderDesc(boxData) {
@@ -68,11 +84,47 @@ class Box extends Component {
         );
     }
 
+    loadFunc(params) {
+        let count = this.state.divs.length;
+        let books = params == undefined ? this.props.books.books : params.books.books;
+        let maxLength = (books.length - count) > 15 ? count + 15 : books.length;
+        let moreDivs = [];
+        for (let i = count; i < maxLength; i++) {
+            moreDivs.push(
+                this.renderBox(books[i], i)
+            )
+        }
+        if (books.length < count + 15) {
+            this.hasMore = false;
+        } else {
+            this.hasMore = true;
+        }
+        books.length == 0 ? this.setState({ divs: [] }) : setTimeout(() => {
+            this.setState({ divs: this.state.divs.concat(moreDivs) });
+        })
+    }
+
+    getItems() {
+        return (
+            <InfiniteScroll
+                next={this.loadFunc}
+                hasMore={this.hasMore}
+                loader={<div className="loaderDiv">Loading books</div>}
+                endMessage={
+                    <p className="endTag" style={{ textAlign: 'center' }}>
+                        <a title="Scrol to top" href={this.props.match.url + "#"}><img src={require("../img/jump-up.png")} /></a>
+                    </p>
+                }>
+                {this.state.divs}
+            </InfiniteScroll>
+        );
+    }
+
     render() {
         console.log(this.props.books);
         return (this.props.books.books.length > 0 || this.props.books.books.id != undefined) ? (
-            <div>
-                {this.props.books.books.length > 0 ? this.props.books.books.map(this.renderBox) : this.renderBox(this.props.books.books, 0)}
+            <div className="App">
+                {this.props.books.books.length > 0 ? this.getItems() : this.renderBox(this.props.books.books, 0)}
             </div>
         ) : (
                 // <div className="loaderDiv">
@@ -89,7 +141,7 @@ function mapStateToProps(books) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchBooks }, dispatch);
+    return bindActionCreators({ fetchBooks, updateIsBooks }, dispatch);
 }
 
 
