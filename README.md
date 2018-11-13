@@ -14,4 +14,4 @@ For books data we are using Goodreads API. This api has no CORS, so we are using
 
 'react-router-dom' from routing.
 
-Demo - https://booktvrepo.herokuapp.com 
+Demo - https://booktvrepo.firebaseapp.com/ 
